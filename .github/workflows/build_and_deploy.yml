@@ -38,7 +38,7 @@ jobs:
         npm install -g morphir-elm
         morphir-dapr -d
         
-    # Login to Azure Container Registry
+    # Login to Azure Container Registry 
     - name: Login to azure container registry
       uses: azure/docker-login@v1
       with: 
