@@ -42,23 +42,13 @@ jobs:
     - name: Login to azure container registry
       uses: azure/docker-login@v1
       with: 
-        login-server: daprapps.azurecr.io
+        login-server: ${{ secrets.ACR_URL }}
         username: ${{ secrets.SERVICE_PRINCIPAL_CLIENT_ID }}
         password: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
     
     # Build docker image to push to ACR
     - name: Push image to azure container registry
       run: |
-        docker build . -t daprapps.azurecr.io/books_and_records:${{ github.sha }}
-        docker push daprapps.azurecr.io/books_and_records:${{ github.sha }}
+        docker build . -t ${{ secrets.ACR_URL }}/books_and_records:${{ github.sha }}
+        docker push ${{ secrets.ACR_URL }}/books_and_records:${{ github.sha }}
         
-    # Login to azure azzount
-    - name: Azure login
-      uses: azure/login@v1
-      with: 
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        
-    # Check azure login status #
-    - run: |
-        az webapp list --query "[?state='Running']" 
- 
